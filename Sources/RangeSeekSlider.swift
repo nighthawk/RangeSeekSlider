@@ -214,6 +214,13 @@ import UIKit
     
     /// Set label font size
     @IBInspectable open var labelFontSize: CGFloat = 13.0
+    
+    /// slider line border with (default 0.0)
+    @IBInspectable open var sliderLineBorderWidth: CGFloat = 0.0 {
+        didSet {
+            sliderLine.borderWidth = sliderLineBorderWidth
+        }
+    }
 
     /// The label displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
     @IBInspectable open var minLabelAccessibilityLabel: String?
