@@ -208,6 +208,9 @@ import UIKit
             updateLabelPositions()
         }
     }
+    
+    /// Show labels as one when labels overlap
+    @IBInspectable open var overlapLabel: Bool = false
 
     /// The label displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
     @IBInspectable open var minLabelAccessibilityLabel: String?
@@ -583,24 +586,29 @@ import UIKit
                 maxLabel.frame.origin.x = frame.width - maxLabel.frame.width
             }
         } else {
-            let increaseAmount: CGFloat = minSpacingBetweenLabels - newSpacingBetweenTextLabels
-            minLabel.position = CGPoint(x: newMinLabelCenter.x - increaseAmount / 2.0, y: newMinLabelCenter.y)
-            maxLabel.position = CGPoint(x: newMaxLabelCenter.x + increaseAmount / 2.0, y: newMaxLabelCenter.y)
+            if overlapLabel {
+                minLabel.position = newMinLabelCenter
+                maxLabel.position = newMaxLabelCenter
+            } else {
+                let increaseAmount: CGFloat = minSpacingBetweenLabels - newSpacingBetweenTextLabels
+                minLabel.position = CGPoint(x: newMinLabelCenter.x - increaseAmount / 2.0, y: newMinLabelCenter.y)
+                maxLabel.position = CGPoint(x: newMaxLabelCenter.x + increaseAmount / 2.0, y: newMaxLabelCenter.y)
 
-            // Update x if they are still in the original position
-            if minLabel.position.x == maxLabel.position.x {
-                minLabel.position.x = leftHandle.frame.midX
-                maxLabel.position.x = leftHandle.frame.midX + minLabel.frame.width / 2.0 + minSpacingBetweenLabels + maxLabel.frame.width / 2.0
-            }
+                // Update x if they are still in the original position
+                if minLabel.position.x == maxLabel.position.x {
+                    minLabel.position.x = leftHandle.frame.midX
+                    maxLabel.position.x = leftHandle.frame.midX + minLabel.frame.width / 2.0 + minSpacingBetweenLabels + maxLabel.frame.width / 2.0
+                }
 
-            if minLabel.frame.minX < 0.0 {
-                minLabel.frame.origin.x = 0.0
-                maxLabel.frame.origin.x = minSpacingBetweenLabels + minLabel.frame.width
-            }
+                if minLabel.frame.minX < 0.0 {
+                    minLabel.frame.origin.x = 0.0
+                    maxLabel.frame.origin.x = minSpacingBetweenLabels + minLabel.frame.width
+                }
 
-            if maxLabel.frame.maxX > frame.width {
-                maxLabel.frame.origin.x = frame.width - maxLabel.frame.width
-                minLabel.frame.origin.x = maxLabel.frame.origin.x - minSpacingBetweenLabels - minLabel.frame.width
+                if maxLabel.frame.maxX > frame.width {
+                    maxLabel.frame.origin.x = frame.width - maxLabel.frame.width
+                    minLabel.frame.origin.x = maxLabel.frame.origin.x - minSpacingBetweenLabels - minLabel.frame.width
+                }
             }
         }
     }
