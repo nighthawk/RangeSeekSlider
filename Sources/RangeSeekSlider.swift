@@ -211,6 +211,9 @@ import UIKit
     
     /// Show labels as one when labels overlap
     @IBInspectable open var overlapLabel: Bool = false
+    
+    /// Set label font size
+    @IBInspectable open var labelFontSize: CGFloat = 13.0
 
     /// The label displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
     @IBInspectable open var minLabelAccessibilityLabel: String?
@@ -414,7 +417,6 @@ import UIKit
         rightHandle.frame = handleFrame
 
         // draw the text labels
-        let labelFontSize: CGFloat = 12.0
         let labelFrame: CGRect = CGRect(x: 0.0, y: 50.0, width: 75.0, height: 14.0)
 
         minLabelFont = UIFont.systemFont(ofSize: labelFontSize)
