@@ -221,6 +221,13 @@ import UIKit
             sliderLine.borderWidth = sliderLineBorderWidth
         }
     }
+    
+    /// slider with custom border color
+    @IBInspectable open var sliderLineBorderColor: UIColor = .clear {
+        didSet {
+            sliderLine.borderColor = sliderLineBorderColor.cgColor
+        }
+    }
 
     /// The label displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
     @IBInspectable open var minLabelAccessibilityLabel: String?
