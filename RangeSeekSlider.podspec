@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'RangeSeekSlider'
-  s.version               = '1.8.0'
+  s.version               = '1.9.0'
   s.summary               = 'RangeSeekSlider provides a customizable range slider like a UISlider.'
   s.description           = <<-DESC
                             RangeSeekSlider provides a customizable range slider like a UISlider.
@@ -15,4 +15,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.source_files          = 'Sources/*.swift'
   s.frameworks            = ['CoreGraphics', 'UIKit']
+  s.platform              = :ios, "11.0"
+  s.swift_version         = '5.0'
 end
