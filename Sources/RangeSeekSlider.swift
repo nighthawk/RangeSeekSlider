@@ -218,14 +218,14 @@ import UIKit
     /// slider line border with (default 0.0)
     @IBInspectable open var sliderLineBorderWidth: CGFloat = 0.0 {
         didSet {
-            sliderLine.borderWidth = sliderLineBorderWidth
+            nonPaddingSliderLine.borderWidth = sliderLineBorderWidth
         }
     }
     
     /// slider with custom border color
     @IBInspectable open var sliderLineBorderColor: UIColor = .clear {
         didSet {
-            sliderLine.borderColor = sliderLineBorderColor.cgColor
+            nonPaddingSliderLine.borderColor = sliderLineBorderColor.cgColor
         }
     }
 
@@ -248,6 +248,7 @@ import UIKit
     private var handleTracking: HandleTracking = .none
 
     private let sliderLine: CALayer = CALayer()
+    private let nonPaddingSliderLine: CALayer = CALayer()
     private let sliderLineBetweenHandles: CALayer = CALayer()
 
     private let leftHandle: CALayer = CALayer()
@@ -412,6 +413,8 @@ import UIKit
 
         // draw the slider line
         layer.addSublayer(sliderLine)
+        
+        layer.addSublayer(nonPaddingSliderLine)
 
         // draw the track distline
         layer.addSublayer(sliderLineBetweenHandles)
@@ -478,7 +481,7 @@ import UIKit
     }
 
     private func updateLineHeight() {
-        let barSidePadding: CGFloat = 0.0
+        let barSidePadding: CGFloat = 16.0
         let yMiddle: CGFloat = frame.height / 2.0
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
         let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
@@ -488,6 +491,14 @@ import UIKit
                                   width: lineRightSide.x - lineLeftSide.x,
                                   height: lineHeight)
         sliderLine.cornerRadius = lineHeight / 2.0
+        
+        let padding = barSidePadding - handleDiameter / 2
+        nonPaddingSliderLine.frame = CGRect(x: padding,
+                                      y: lineLeftSide.y,
+                                      width: frame.width - padding * 2,
+                                      height: lineHeight)
+        nonPaddingSliderLine.cornerRadius = lineHeight / 2.0
+        
         sliderLineBetweenHandles.cornerRadius = sliderLine.cornerRadius
     }
 
@@ -523,6 +534,7 @@ import UIKit
             maxLabel.foregroundColor = initialColor
             sliderLineBetweenHandles.backgroundColor = initialColor
             sliderLine.backgroundColor = initialColor
+            nonPaddingSliderLine.backgroundColor = initialColor
 
             let color: CGColor = (handleImage == nil) ? initialColor : UIColor.clear.cgColor
             leftHandle.backgroundColor = color
@@ -535,6 +547,7 @@ import UIKit
             maxLabel.foregroundColor = maxLabelColor?.cgColor ?? tintCGColor
             sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
             sliderLine.backgroundColor = tintCGColor
+            nonPaddingSliderLine.backgroundColor = tintCGColor
 
             let color: CGColor
             if let _ = handleImage {
@@ -554,10 +567,10 @@ import UIKit
     }
 
     private func updateHandlePositions() {
-        leftHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue) + (handleDiameter / 2),
+        leftHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue),
                                       y: sliderLine.frame.midY)
 
-        rightHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue) - (handleDiameter / 2),
+        rightHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue),
                                        y: sliderLine.frame.midY)
 
         // positioning for the dist slider line
