@@ -478,7 +478,7 @@ import UIKit
     }
 
     private func updateLineHeight() {
-        let barSidePadding: CGFloat = 16.0
+        let barSidePadding: CGFloat = 0.0
         let yMiddle: CGFloat = frame.height / 2.0
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
         let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
@@ -554,10 +554,10 @@ import UIKit
     }
 
     private func updateHandlePositions() {
-        leftHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue),
+        leftHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue) + (handleDiameter / 2),
                                       y: sliderLine.frame.midY)
 
-        rightHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue),
+        rightHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue) - (handleDiameter / 2),
                                        y: sliderLine.frame.midY)
 
         // positioning for the dist slider line
