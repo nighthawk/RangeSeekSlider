@@ -246,6 +246,7 @@ import UIKit
 
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
+    private var previousTouchLocation: CGPoint = .zero
 
     private let sliderLine: CALayer = CALayer()
     private let nonPaddingSliderLine: CALayer = CALayer()
@@ -333,6 +334,9 @@ import UIKit
         } else if selectedMaxValue == maxValue && leftHandle.frame.midX == rightHandle.frame.midX {
             handleTracking = .left
         } else {
+            if isTouchingLeftHandle == isTouchingRightHandle {
+                previousTouchLocation = touchLocation
+            }
             handleTracking = .right
         }
         let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
@@ -347,6 +351,15 @@ import UIKit
         guard handleTracking != .none else { return false }
 
         let location: CGPoint = touch.location(in: self)
+        
+        if previousTouchLocation != .zero {
+            if location.x < previousTouchLocation.x {
+                handleTracking = .left
+            } else {
+                handleTracking = .right
+            }
+            previousTouchLocation = .zero
+        }
 
         // find out the percentage along the line we are in x coordinate terms (subtracting half the frames width to account for moving the middle of the handle, not the left hand side)
         let percentage: CGFloat = (location.x - sliderLine.frame.minX - handleDiameter / 2.0) / (sliderLine.frame.maxX - sliderLine.frame.minX)
