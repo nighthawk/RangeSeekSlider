@@ -212,8 +212,8 @@ import UIKit
     /// Show labels as one when labels overlap
     @IBInspectable open var overlapLabel: Bool = false
     
-    /// Set label font size
-    @IBInspectable open var labelFontSize: CGFloat = 13.0
+    /// Set label font
+    @IBInspectable open var labelFont: UIFont = .systemFont(ofSize: 13.0, weight: .regular)
     
     /// slider line border with (default 0.0)
     @IBInspectable open var sliderLineBorderWidth: CGFloat = 0.0 {
@@ -449,13 +449,13 @@ import UIKit
         // draw the text labels
         let labelFrame: CGRect = CGRect(x: 0.0, y: 50.0, width: 75.0, height: 14.0)
 
-        minLabelFont = UIFont.systemFont(ofSize: labelFontSize)
+        minLabelFont = labelFont
         minLabel.alignmentMode = CATextLayerAlignmentMode.center
         minLabel.frame = labelFrame
         minLabel.contentsScale = UIScreen.main.scale
         layer.addSublayer(minLabel)
 
-        maxLabelFont = UIFont.systemFont(ofSize: labelFontSize)
+        maxLabelFont = labelFont
         maxLabel.alignmentMode = CATextLayerAlignmentMode.center
         maxLabel.frame = labelFrame
         maxLabel.contentsScale = UIScreen.main.scale
