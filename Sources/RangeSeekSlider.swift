@@ -83,6 +83,8 @@ import UIKit
             maxLabel.fontSize = maxLabelFont.pointSize
         }
     }
+    
+    open var adjustsFontInLabel: Bool = false
 
     /// Each handle in the slider has a label above it showing the current selected value. By default, this is displayed as a decimal format.
     /// You can update this default here by updating properties of NumberFormatter. For example, you could supply a currency style, or a prefix or suffix.
@@ -651,6 +653,22 @@ import UIKit
                     maxLabel.frame.origin.x = frame.width - maxLabel.frame.width
                     minLabel.frame.origin.x = maxLabel.frame.origin.x - minSpacingBetweenLabels - minLabel.frame.width
                 }
+            }
+        }
+        
+        if adjustsFontInLabel {
+            if leftHandle.frame.width - minLabel.frame.width < 5 {
+                minLabel.frame.origin.y = minLabel.frame.origin.y - (0 < labelPadding ? 0.5 : -0.5)
+                minLabel.fontSize = minLabelFont.pointSize - 1
+            } else {
+                minLabel.fontSize = minLabelFont.pointSize
+            }
+            
+            if rightHandle.frame.width - maxLabel.frame.width < 5 {
+                maxLabel.frame.origin.y = maxLabel.frame.origin.y - (0 < labelPadding ? 0.5 : -0.5)
+                maxLabel.fontSize = maxLabelFont.pointSize - 1
+            } else {
+                maxLabel.fontSize = maxLabelFont.pointSize
             }
         }
     }
